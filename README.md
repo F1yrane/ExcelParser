@@ -22,4 +22,4 @@
 # Contributing:
 I'm  welcome contributions to the project: bug reports, bug fixes, new features, etc. Please open new issues or create pull requests.
 
-(This application is actibely maintained, and I will be periodcally updating and improving it)
+(This application is actively maintained, and I will be periodically updating and improving it)
