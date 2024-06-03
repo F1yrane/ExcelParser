@@ -1,0 +1,74 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model ViewModel
+@{
+    ViewData["Title"] = "Details";
+}
+<script>
+    function printById(id) {
+        var el = document.getElementById(id);
+        if (!el) return;
+        var elCopy = el.cloneNode(true);
+        // Получаем ранее созданную или создаём впервые секцию для печати
+        var printSection = document.getElementById('printSection');
+        if (!printSection) {
+            printSection = document.createElement("div");
+            printSection.id = "printSection";
+
+            document.body.appendChild(printSection);
+        }
+        //
+        printSection.innerHTML = '';
+        printSection.appendChild(elCopy);
+        // прячем всё кроме printSection
+        var children = document.body.children, i, el;
+        for (i = 0; i < children.length; ++i) {
+            el = children[i];
+            el.style._display = el.style.display;
+            el.style.display = 'none';
+        }
+        printSection.style.display = 'block';
+
+        // Печать
+        window.print();
+
+        // Восстанавливаем видимость  
+        for (i = 0; i < children.length; ++i) {
+            el = children[i];
+            el.style.display = el.style._display;
+            delete el.style._display;
+        }
+        printSection.style.display = 'none';
+        // Очищаем DOM
+        printSection.innerHTML = '';
+    }
+    </script>
+<div id="table">
+
+
+<table class="table" >
+    <thead>
+    </thead>
+    <tbody>
+        @foreach (var item in @Model.CostRems)
+        {
+
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Coderab)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cost)
+                </td>
+
+            </tr>
+        }
+    </tbody>
+
+</table>
+    </div>
+<div>
+    <button class="btn btn-primary" onclick="printById('table')">Print</button>
+</div>

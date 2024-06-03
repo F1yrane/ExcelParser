@@ -1,0 +1,125 @@
+﻿@model ViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Заказы</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<button class="btn btn-primary" id="printTable">Печать</button>
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous">
+</script>
+
+<script>
+    jQuery(function ($) {
+        const tableToPrint = document.getElementById('printMe');
+
+        function printData(tableToPrint) {
+            Popup($(tableToPrint).html());
+        }
+
+        function Popup(data) {
+            const mywindow = window.open('', 'printMe', 'height=600, width=1000');
+            // стили таблицы
+            mywindow.document.write('<link rel="stylesheet" href="styles.css" type="text/css" />');
+            mywindow.document.write(tableToPrint.outerHTML);
+            mywindow.document.close(); // для IE >= 10
+            mywindow.focus();          // для IE >= 10
+            mywindow.print();
+            mywindow.close();
+            return true;
+        }
+
+        $(document).on('click', '#printTable', function () {
+            printData();
+            return false;
+        });
+    });
+</script>
+
+
+
+<table class="table" id="printMe">
+
+    <tbody>
+        @foreach (var item in Model.Orders)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Num)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+
+
+            </tr>
+            @foreach (var item1 in @Model.Customers)
+            {
+                if (item.Num != item1.Nid1)
+                {
+                    continue;
+                }
+                else
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item1.Nid1)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item1.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item1.Date)
+                        </td>
+
+
+
+                    </tr>
+                }
+                @foreach (var item2 in Model.CostRems)
+                {
+                    if (item.Num != item2.Nid)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item2.Coderab)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item2.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item2.Cost) ₽
+                            </td>
+
+
+
+                        </tr>
+
+                    }
+
+                }
+                <tr>
+                    <td>
+                        <div class="font-weight-bold">Итого: @Html.DisplayFor(modelItem => item1.EndCost) ₽</div>
+                    </td>
+                </tr>
+
+            }
+        }
+    </tbody>
+
+</table>
