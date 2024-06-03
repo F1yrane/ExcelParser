@@ -19,7 +19,7 @@
 3. Navigate to the project directory: cd ExcelParser
 4. Run the application: dotnet run
 
-# Contibuting:
+# Contributing:
 I'm  welcome contributions to the project: bug reports, bug fixes, new features, etc. Please open new issues or create pull requests.
 
 (This application is actibely maintained, and I will be periodcally updating and improving it)
